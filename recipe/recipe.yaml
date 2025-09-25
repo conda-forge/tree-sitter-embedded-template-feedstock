@@ -1,6 +1,6 @@
 context:
   name: tree-sitter-embedded-template
-  version: "0.25.0"
+  version: "0.23.2"
 
 package:
   name: ${{ name|lower }}
@@ -8,15 +8,12 @@ package:
 
 source:
   url: https://github.com/tree-sitter/tree-sitter-embedded-template/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: c45330d6c53b64c9dfbcb00e85ddb5b3f79e0f3457bc76ca764c57630ee4df54
-  # Source missing file tree_sitter/parser.h
-  # url: https://pypi.org/packages/source/t/tree-sitter-embedded-template/tree_sitter_embedded_template-${{ version }}.tar.gz
-  # sha256: 7b24dcf2e92497f54323e617564d36866230a8bfb719dbb7b45b461510dcddaa
+  sha256: eeda286631c6086b6fbe6d2a2c5cc8c1ea6129aaaf5bef4ca4b9a3f44d829569
 
 build:
   script:
     - ${{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-build-isolation -vv
-  number: 1
+  number: 3
 
 requirements:
   build:
