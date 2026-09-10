@@ -43,7 +43,7 @@ build:
     - if: win
       then:
         - ${{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-build-isolation -vv
-  number: 3
+  number: 4
 
 requirements:
   build:
