@@ -15,35 +15,8 @@ source:
 
 build:
   script:
-    - if: unix
-      then:
-        - |
-          ${{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-build-isolation -vv
-          
-          # setuptools names a py_limited_api (abi3) extension from the first '.abi3'
-          # entry of the BUILD interpreter's importlib.machinery.EXTENSION_SUFFIXES
-          # (see get_abi3_suffix() in setuptools/command/build_ext.py). CPython 3.15
-          # (gh-122931) inserted a platform-tagged '.abi3-<multiarch>.so' ahead of the
-          # plain '.abi3.so', so on a cross build the BUILD arch leaks into the
-          # filename and the module cannot be imported on the host. EXT_SUFFIX and
-          # SETUPTOOLS_EXT_SUFFIX do not govern this path.
-          # Rename the platform-tagged file back to the plain '.abi3.so', which every
-          # non-free-threaded CPython accepts. Only platform-tagged names are matched:
-          # on Python < 3.15 setuptools already emits the plain name and this loop is
-          # a no-op. crossenv >=1.6.0 emits the plain name too, so this can be dropped
-          # once https://github.com/conda-forge/crossenv-feedstock/pull/49 lands.
-          if [ "${CONDA_BUILD_CROSS_COMPILATION:-0}" = "1" ]; then
-            for _f in "${PREFIX}"/lib/python*/site-packages/tree_sitter_embedded_template/_binding.abi3-*.so; do
-              [ -e "${_f}" ] || continue
-              _want="$(dirname "${_f}")/_binding.abi3.so"
-              echo "cross-build: renaming $(basename "${_f}") -> $(basename "${_want}")"
-              mv -f "${_f}" "${_want}"
-            done
-          fi
-    - if: win
-      then:
-        - ${{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-build-isolation -vv
-  number: 4
+    - ${{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-build-isolation -vv
+  number: 5
 
 requirements:
   build:
